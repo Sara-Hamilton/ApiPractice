@@ -15,19 +15,22 @@ namespace ApiPractice.Models
         public string Location { get; set; }
         //public List<string> Repos { get; set; }
 
-        public static List<GithubProfile> GetGithubProfile()
+        public static GithubProfile GetGithubProfile()
         {
             var client = new RestClient("https://api.github.com");
             var request = new RestRequest("users/Sara-Hamilton", Method.GET) { RequestFormat = DataFormat.Json };
             request.AddHeader("header", "application/vnd.github.v3+json");
             request.AddHeader("User-Agent", "Sara-Hamilton");
             var response = new RestResponse();
+       
             Task.Run(async () =>
             {
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
+            Console.WriteLine(response);
+
             JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            var profile = JsonConvert.DeserializeObject<List<GithubProfile>>(jsonResponse["followers"].ToString());
+            var profile = JsonConvert.DeserializeObject<GithubProfile>(jsonResponse.ToString());
           
             return profile;
          
