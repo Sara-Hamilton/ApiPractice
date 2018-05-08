@@ -5,6 +5,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace ApiPractice.Models
 {
@@ -18,6 +19,7 @@ namespace ApiPractice.Models
         public string Language { get; set; }
         public string Description { get; set; }
         public string Html_Url { get; set; }
+        public string Created_At { get; set; }
 
         public static GithubProfile GetGithubProfile()
         {

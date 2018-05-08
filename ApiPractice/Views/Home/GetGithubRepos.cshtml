@@ -8,12 +8,17 @@
 
 <h2>All Repos</h2>
 <hr />
+
 <ul>
 
-    @foreach (var repo in Model)
+    @foreach (var repo in Model.OrderByDescending(x => x.Created_At))
     {
-        <li>Repo Name: <a href=@repo.Html_Url target="_blank"> @Html.DisplayFor(modelItem => repo.Name)</a></li>
 
+        DateTime parsedDate = DateTime.Parse(repo.Created_At);
+        string shortDate = parsedDate.ToString("MM/dd/yyyy");
+
+        <li>Created Date: @Html.DisplayFor(modelItem => shortDate)</li>
+        <li>Repo Name: <a href=@repo.Html_Url target="_blank"> @Html.DisplayFor(modelItem => repo.Name)</a></li>
         <li>Description: @Html.DisplayFor(modelItem => repo.Description)</li>
         <li>Language: @Html.DisplayFor(modelItem => repo.Language)</li>
         <hr />
