@@ -15,6 +15,9 @@ namespace ApiPractice.Models
         public string Location { get; set; }
         //public List<string> Repos { get; set; }
         public string Full_Name { get; set; }
+        public string Language { get; set; }
+        public string Description { get; set; }
+        public string Html_Url { get; set; }
 
         public static GithubProfile GetGithubProfile()
         {
