@@ -13,7 +13,6 @@
 
     @foreach (var repo in Model.OrderByDescending(x => x.Created_At))
     {
-
         DateTime parsedDate = DateTime.Parse(repo.Created_At);
         string shortDate = parsedDate.ToString("MM/dd/yyyy");
 
@@ -21,6 +20,8 @@
         <li>Created Date: @Html.DisplayFor(modelItem => shortDate)</li>
         <li>Description: @Html.DisplayFor(modelItem => repo.Description)</li>
         <li>Language: @Html.DisplayFor(modelItem => repo.Language)</li>
+        <li>Count : @Model.Count()</li>
+        <li>Repo ID : @Html.DisplayFor(modelItem => repo.Id)</li>
         <hr />
     }
 
