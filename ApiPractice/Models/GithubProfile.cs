@@ -14,6 +14,7 @@ namespace ApiPractice.Models
         public string Url { get; set; }
         public string Location { get; set; }
         //public List<string> Repos { get; set; }
+        public string Full_Name { get; set; }
 
         public static GithubProfile GetGithubProfile()
         {
@@ -36,26 +37,47 @@ namespace ApiPractice.Models
          
         }
 
-        public static List<GithubProfile> GetProfile()
+        public static List<GithubProfile> GetGithubRepos()
         {
             var client = new RestClient("https://api.github.com");
-            var request = new RestRequest("users/Sara-Hamilton", Method.GET) { RequestFormat = DataFormat.Json };
-            request.AddHeader("Accept", "application/vnd.github.v3+json");
+            var request = new RestRequest("users/Sara-Hamilton/repos", Method.GET) { RequestFormat = DataFormat.Json };
+            request.AddHeader("header", "application/vnd.github.v3+json");
             request.AddHeader("User-Agent", "Sara-Hamilton");
             var response = new RestResponse();
-            var content = response.Content;
-            //var response = new RestResponse();
-
 
             Task.Run(async () =>
             {
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
-            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            var profileList = JsonConvert.DeserializeObject<List<GithubProfile>>(jsonResponse["githubProfiles"].ToString());
-            return profileList;
+            Console.WriteLine(response);
+
+            JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(response.Content);
+            var repoList = JsonConvert.DeserializeObject<List<GithubProfile>>(jsonResponse.ToString());
+
+            return repoList;
 
         }
+
+        //public static List<GithubProfile> GetProfile()
+        //{
+        //    var client = new RestClient("https://api.github.com");
+        //    var request = new RestRequest("users/Sara-Hamilton", Method.GET) { RequestFormat = DataFormat.Json };
+        //    request.AddHeader("Accept", "application/vnd.github.v3+json");
+        //    request.AddHeader("User-Agent", "Sara-Hamilton");
+        //    var response = new RestResponse();
+        //    var content = response.Content;
+        //    //var response = new RestResponse();
+
+
+        //    Task.Run(async () =>
+        //    {
+        //        response = await GetResponseContentAsync(client, request) as RestResponse;
+        //    }).Wait();
+        //    JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
+        //    var profileList = JsonConvert.DeserializeObject<List<GithubProfile>>(jsonResponse["githubProfiles"].ToString());
+        //    return profileList;
+
+        //}
 
         public void Send()
         {

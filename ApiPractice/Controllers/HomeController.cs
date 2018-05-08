@@ -20,10 +20,10 @@ namespace ApiPractice.Controllers
             return View(userProfile);
         }
 
-        public IActionResult GetProfile()
+        public IActionResult GetGithubRepos()
         {
-            var userProfile = GithubProfile.GetProfile();
-            return View(userProfile);
+            var userRepos = GithubProfile.GetGithubRepos();
+            return View(userRepos);
         }
 
         public IActionResult Send()
