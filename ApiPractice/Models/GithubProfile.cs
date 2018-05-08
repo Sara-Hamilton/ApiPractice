@@ -25,7 +25,7 @@ namespace ApiPractice.Models
             var client = new RestClient("https://api.github.com");
             var request = new RestRequest("users/Sara-Hamilton", Method.GET) { RequestFormat = DataFormat.Json };
             request.AddHeader("header", "application/vnd.github.v3+json");
-            request.AddHeader("User-Agent", "Sara-Hamilton");
+            request.AddHeader("User-Agent", EnvironmentVariables.AccountUserAgent);
             var response = new RestResponse();
             Task.Run(async () =>
             {
@@ -42,7 +42,7 @@ namespace ApiPractice.Models
             var client = new RestClient("https://api.github.com");
             var request = new RestRequest("users/Sara-Hamilton/repos", Method.GET) { RequestFormat = DataFormat.Json };
             request.AddHeader("header", "application/vnd.github.v3+json");
-            request.AddHeader("User-Agent", "Sara-Hamilton");
+            request.AddHeader("User-Agent", EnvironmentVariables.AccountUserAgent);
             var response = new RestResponse();
             Task.Run(async () =>
             {
