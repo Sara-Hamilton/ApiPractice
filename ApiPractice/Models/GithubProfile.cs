@@ -40,7 +40,6 @@ namespace ApiPractice.Models
 
         public static List<GithubProfile> GetGithubRepos()
         {
-            //var repoCount = GetGithubProfile().Public_Repos;
             var client = new RestClient("https://api.github.com");
             var request = new RestRequest("users/Sara-Hamilton/repos?per_page=100&sort=updated", Method.GET) { RequestFormat = DataFormat.Json };
             request.AddHeader("header", "application/vnd.github.v3+json");
@@ -50,7 +49,6 @@ namespace ApiPractice.Models
             {
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
-            //Console.WriteLine(repoCount);
             JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(response.Content);
             var repoList = JsonConvert.DeserializeObject<List<GithubProfile>>(jsonResponse.ToString());
             return repoList;
