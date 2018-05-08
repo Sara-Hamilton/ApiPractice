@@ -13,20 +13,61 @@ namespace ApiPractice.Models
         public string Name { get; set; }
         public string Url { get; set; }
         public string Location { get; set; }
-        public List<string> Repos { get; set; }
+        //public List<string> Repos { get; set; }
 
         public static List<GithubProfile> GetGithubProfile()
         {
-            var client = new RestClient("https://developer.github.com/v3");
-            var request = new RestRequest("users/Sara-Hamilton.json", Method.GET);
+            var client = new RestClient("https://api.github.com");
+            var request = new RestRequest("users/Sara-Hamilton", Method.GET) { RequestFormat = DataFormat.Json };
+            request.AddHeader("header", "application/vnd.github.v3+json");
+            request.AddHeader("User-Agent", "Sara-Hamilton");
             var response = new RestResponse();
             Task.Run(async () =>
             {
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
             JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            var profileList = JsonConvert.DeserializeObject<List<GithubProfile>>(jsonResponse["githubprofiles"].ToString());
+            var profile = JsonConvert.DeserializeObject<List<GithubProfile>>(jsonResponse["followers"].ToString());
+          
+            return profile;
+         
+        }
+
+        public static List<GithubProfile> GetProfile()
+        {
+            var client = new RestClient("https://api.github.com");
+            var request = new RestRequest("users/Sara-Hamilton", Method.GET) { RequestFormat = DataFormat.Json };
+            request.AddHeader("Accept", "application/vnd.github.v3+json");
+            request.AddHeader("User-Agent", "Sara-Hamilton");
+            var response = new RestResponse();
+            var content = response.Content;
+            //var response = new RestResponse();
+
+
+            Task.Run(async () =>
+            {
+                response = await GetResponseContentAsync(client, request) as RestResponse;
+            }).Wait();
+            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
+            var profileList = JsonConvert.DeserializeObject<List<GithubProfile>>(jsonResponse["githubProfiles"].ToString());
             return profileList;
+
+        }
+
+        public void Send()
+        {
+            var client = new RestClient("https://api.github.com");
+            var request = new RestRequest("users/Sara-Hamilton", Method.POST); request.AddHeader("Accept", "application/vnd.github.v3+json");
+            request.AddHeader("User Agent", "Sara Hamilton");
+            request.AddHeader("Accept", "application/vnd.github.v3+json");
+            request.AddHeader("User Agent", "Sara Hamilton");
+            //request.AddParameter("Name", Name);
+            //request.AddParameter("Url", Url);
+            //request.AddParameter("Body", Body);
+            //client.Authenticator = new HttpBasicAuthenticator("{{Account SID}}", "{{Auth Token}}");
+            client.ExecuteAsync(request, response => {
+                Console.WriteLine(response.Content);
+            });
         }
 
         public static Task<IRestResponse> GetResponseContentAsync(RestClient theClient, RestRequest theRequest)
